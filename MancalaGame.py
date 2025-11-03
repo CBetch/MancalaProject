@@ -1,7 +1,7 @@
 import random
 
 class Mancala:
-    def __init__(self, pits_per_player=6, stones_per_pit = 4):
+    def __init__(self, pits_per_player=6, stones_per_pit = 4, verbose = False):
         """
         The constructor for the Mancala class defines several instance variables:
 
@@ -23,10 +23,15 @@ class Mancala:
         self.p1_mancala_index = self.pits_per_player
         self.p2_pits_index = [self.pits_per_player+1, len(self.board)-1-1]
         self.p2_mancala_index = len(self.board)-1
+        self.verbose = verbose
         
         # Zeroing the Mancala for both players
         self.board[self.p1_mancala_index] = 0
         self.board[self.p2_mancala_index] = 0
+
+    def __str__(self):
+        self.display_board()
+        return ""
 
     def display_board(self):
         """
@@ -113,16 +118,17 @@ class Mancala:
         
         # Make sure the pit chosen is a valid move
         if not self.valid_move(pit):
-            print("INVALID MOVE")
+            if self.verbose:
+                print("INVALID MOVE")
             return self.board
 
         # Verify if the board is in a winning state
         if self.winning_eval():
-            print("GAME OVER")
+            if self.verbose:
+                print("GAME OVER")
             return self.board
         
         # Take turn
-        print(f"Player {self.current_player} chose pit: {pit}")
         curr_index = pit-1 + self.p1_pits_index[0] if self.current_player == 1 else pit-1 + self.p2_pits_index[0]   # Track which pit we're looking at
         cur_mancala_idx = self.p1_mancala_index if self.current_player == 1 else self.p2_mancala_index
         opp_mancala_idx = self.p2_mancala_index if self.current_player == 1 else self.p1_mancala_index # Identify the index to skip (opponents mancala)
@@ -197,13 +203,14 @@ class Mancala:
             self.board[self.p2_mancala_index] += p2_sum
             
             # Determine winner, print
-            if self.board[self.p1_mancala_index] == self.board[self.p2_mancala_index]:
-                print("TIE")
-            elif self.board[self.p1_mancala_index] >= self.board[self.p2_mancala_index]:
-                print("Player 1 WIN")
-            else:
-                print("Player 2 WIN")
-            print(f"SCORE: P1({self.board[self.p1_mancala_index]} - {self.board[self.p2_mancala_index]})P2")
+            if self.verbose:
+                if self.board[self.p1_mancala_index] == self.board[self.p2_mancala_index]:
+                    print("TIE")
+                elif self.board[self.p1_mancala_index] >= self.board[self.p2_mancala_index]:
+                    print("Player 1 WIN")
+                else:
+                    print("Player 2 WIN")
+                print(f"SCORE: P1({self.board[self.p1_mancala_index]} - {self.board[self.p2_mancala_index]})P2")
         
         # Return if the game is over or not
         return end_game
