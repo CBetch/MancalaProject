@@ -38,3 +38,36 @@ End-game detection
 Final score calculation
 
 display_board() for debugging visualization
+
+2. MinimaxAI.py — The AI Player
+
+This file implements:
+
+A configurable-depth Minimax search
+
+A simple heuristic:
+(your mancala score − opponent mancala score)
+
+Recursion + deep copying of game states
+
+Move selection using choose_move()
+
+3. PlayGames.py — Running Experiments
+
+PlayGames runs multiple complete games automatically.
+
+Player types:
+
+"random" — chooses from valid moves at random
+
+"minimax" — uses the Minimax AI
+
+4. Scratchpad.ipynb — How to Use It
+
+This notebook is your workspace for:
+
+Running experiments
+
+Testing AI depths
+
+Visualizing win percentages
