@@ -12,7 +12,29 @@ A Jupyter Notebook Scratchpad for experiments, graphs, and analysis
 This setup is used to test how AI depth affects performance (e.g., 2-ply vs 5-ply vs 10-ply).
 
 ├── MancalaGame.py       # Full Mancala rules + board logic
+
 ├── MinimaxAI.py         # Minimax implementation with heuristic + recursion
+
 ├── PlayGames.py         # Runs batches of games for experiments
+
 ├── Scratchpad.ipynb     # Notebook for analysis & plotting
+
 └── README.md
+
+1. MancalaGame.py — The Game Engine
+
+This file implements:
+
+The Mancala board (pits, mancala stores, turn tracking)
+
+How stones move and wrap around the board
+
+Valid move checking
+
+Capture rules
+
+End-game detection
+
+Final score calculation
+
+display_board() for debugging visualization
