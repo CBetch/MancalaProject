@@ -1,18 +1,24 @@
 from MancalaGame import Mancala
 from MinimaxAI import MinimaxAI
+from ABPruningAI import ABPruningAI
+from ABModifiedHeuristicAI import ABModifiedHeuristicAI
+from tqdm import tqdm
 
 class PlayGames:
-    def __init__(self, p1type, p2type, numberGames=100, verbose=False):
+    def __init__(self, p1type, p2type, numberGames=100, depth=5, verbose=False):
         """
             Player Types:
                 random
                 minimax
+                abpruning
+                abmodified
         """
         self.p1type = p1type
         self.p2type = p2type
         self.numberGames = numberGames
+        self.depth = depth
         self.verbose = verbose
-        print(f"Playing {self.numberGames} games of {self.p1type} vs {self.p2type}...")
+        print(f"Playing {self.numberGames} games of {self.p1type} vs {self.p2type} with depth {self.depth}...")
 
     def play_games(self, max_moves=500):
         '''
@@ -28,7 +34,8 @@ class PlayGames:
             'score': [],
             'num_moves': []
         }
-        for game_num in range(1, self.numberGames+1):
+
+        for game_num in tqdm(range(1, self.numberGames+1), desc="Games played"):
             if self.verbose:
                 if game_num % 10 == 0:
                     print(f"Playing Game {game_num}/{self.numberGames}...")
@@ -43,16 +50,28 @@ class PlayGames:
                     if self.p1type == "random":
                         move = game.random_move_generator()
                     elif self.p1type == "minimax":
-                        ai = MinimaxAI(game, 1)
+                        ai = MinimaxAI(game, 1, self.depth)
+                        move = ai.choose_move()
+                    elif self.p1type == "abpruning":
+                        ai = ABPruningAI(game, 1, self.depth)
+                        move = ai.choose_move()
+                    elif self.p1type == "abmodified":
+                        ai = ABModifiedHeuristicAI(game, 1, self.depth)
                         move = ai.choose_move()
                     else:
                         print("Invalid p1type, using random move")
                         move = game.random_move_generator()
                 else:
-                    if self.p1type == "random":
+                    if self.p2type == "random":
                         move = game.random_move_generator()
-                    elif self.p1type == "minimax":
-                        ai = MinimaxAI(game, 2)
+                    elif self.p2type == "minimax":
+                        ai = MinimaxAI(game, 2, self.depth)
+                        move = ai.choose_move()
+                    elif self.p2type == "abpruning":
+                        ai = ABPruningAI(game, 2, self.depth)
+                        move = ai.choose_move()
+                    elif self.p2type == "abmodified":
+                        ai = ABModifiedHeuristicAI(game, 2, self.depth)
                         move = ai.choose_move()
                     else:
                         print("Invalid p2type, using random move")
